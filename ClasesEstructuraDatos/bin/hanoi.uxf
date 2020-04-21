@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram program="umlet" version="14.3.0">
+  <zoom_level>10</zoom_level>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>60</x>
+      <y>180</y>
+      <w>400</w>
+      <h>120</h>
+    </coordinates>
+    <panel_attributes>hanoi.gui::DibujadorHanoi
+--
+-hanoi: HanoiPOO
+--
++DibujadorHanoi(HanoiPOO h): ctor
++dibujar(Graphics g, int x, int y, int w, int h): void
+-dibujarTorre(Graphics g, int numTorre, int x, int y, int h): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+  <element>
+    <id>UMLClass</id>
+    <coordinates>
+      <x>80</x>
+      <y>50</y>
+      <w>320</w>
+      <h>90</h>
+    </coordinates>
+    <panel_attributes>&lt;&lt;interface&gt;&gt;
+hanoi.gui::IDibujador
+--
+--
++dibujar(Graphics g, int x, int y, int w, int h): void
+--
+</panel_attributes>
+    <additional_attributes/>
+  </element>
+</diagram>
