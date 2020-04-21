@@ -3,14 +3,22 @@ package photoshop.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileFilter;
 
 import photoshop.Imagen;
 import photoshop.cmd.ComandoAclarar;
+import photoshop.cmd.ComandoOscurecer;
 
 public class PhotoFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
@@ -35,20 +43,21 @@ public class PhotoFrame extends JFrame {
 		// La barra de mennu
 		JMenuBar menuBar = new JMenuBar();
 		
+		// Menu Archivo
+		//-----------------------------------------
 		JMenu menu = new JMenu("Archivo");
 		menuBar.add(menu);
 		
-		JMenuItem menuItem = new JMenuItem("Standard");
+		JMenuItem menuItem = new JMenuItem("Abrir");
 		menuItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				mnu_config_standard();
-			}
-			
-		});
-		
+				mnu_archivo_abrir();
+			}			
+		});		
 		menu.add(menuItem);
+		
+		menu.addSeparator();
 		
 		menuItem = new JMenuItem("Salir");
 		menuItem.addActionListener(new ActionListener() {
@@ -62,6 +71,7 @@ public class PhotoFrame extends JFrame {
 		menu.add(menuItem);
 		
 		// Menu Operaciones Imagen
+		//-----------------------------------------s
 		menu = new JMenu("Imagen");
 		menuBar.add(menu);
 		
@@ -73,8 +83,18 @@ public class PhotoFrame extends JFrame {
 				mnu_imagen_aclarar();
 			}
 			
-		});
+		});		
+		menu.add(menuItem);
 		
+		menuItem = new JMenuItem("Oscurecer");
+		menuItem.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mnu_imagen_oscurecer();
+			}
+			
+		});		
 		menu.add(menuItem);
 		
 		this.setJMenuBar(menuBar);
@@ -85,12 +105,53 @@ public class PhotoFrame extends JFrame {
 	protected void mnu_imagen_aclarar() {
 		modelo.hacerTransformacion(new ComandoAclarar(20));
 	}
+	
+	protected void mnu_imagen_oscurecer() {
+		modelo.hacerTransformacion(new ComandoOscurecer(20));
+	}
 
 	protected void mnu_archivo_salir() {
 		System.exit(0);
 	}
 
-	protected void mnu_config_standard() {
+	protected void mnu_archivo_abrir() {
+		JFileChooser inputFile = new JFileChooser();
+        inputFile.setFileFilter(new FileFilter() {
+
+            @Override
+            public String getDescription() {
+                // TODO Auto-generated method stub
+                return null;
+            }
+
+            @Override
+            public boolean accept(File f) {
+                if (f.isDirectory()) {
+                    return true;
+                }
+                String extension = f.getAbsolutePath().substring(
+                        f.getAbsolutePath().length() - 4);
+                extension = extension.toLowerCase();
+                return extension.equals(".jpg") || extension.equals(".gif")
+                        || extension.equals(".png");
+            }
+        });
+        inputFile.showOpenDialog(this);
+
+        if (inputFile.getSelectedFile() == null) {
+
+            JOptionPane.showMessageDialog(this, "Debe elegir una imagen");
+            return;
+        }
+
+        BufferedImage img = null;
+        try {
+            img = ImageIO.read(inputFile.getSelectedFile());
+        } catch (IOException e) {
+
+        }
+
+        modelo.setImagen(img);
 	}
 
 }

@@ -75,4 +75,19 @@ public class Imagen {
 	public int[][] getPixeles() {
 		return pixeles;
 	}
+
+	public void setImagen(BufferedImage img) {
+		ancho = img.getWidth();
+		alto = img.getHeight();
+		
+		pixeles = new int[ancho][alto];
+		
+		for (int i = 0; i < ancho; i++) {
+			for (int j = 0; j < alto; j++) {
+				
+				pixeles[i][j] = img.getRGB(i, j);
+			}
+		}
+		imagenChangeSupport.firePropertyChange("imagen", 10, 20);
+	}
 }
