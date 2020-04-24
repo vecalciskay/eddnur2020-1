@@ -22,7 +22,6 @@ public class ComandoAclarar implements IComando {
 		int[][] pixeles = imagen.getPixeles();
 		for (int i = 0; i < imagen.getAncho(); i++) {
 			for (int j = 0; j < imagen.getAlto(); j++) {
-
 				//int b = pixeles[i][j] % 256;
 				//int g = ((pixeles[i][j] - b) / 256) % 256;
 				//int r = ((((pixeles[i][j] - b) / 256) - g) / 256) % 256;
@@ -36,10 +35,8 @@ public class ComandoAclarar implements IComando {
 				//-------------------------------------------
 				// 0x 0000 0000 0000 0000 0000 0000 bbbb bbbb
 				int b = pixeles[i][j] & 0x000000ff;
-				
 				// 0x000000gg
 				int g = (pixeles[i][j] >>> 8) & 0x000000ff;
-				
 				// 0x000000rr
 				int r = (pixeles[i][j] >>> 16) & 0x000000ff;
 
@@ -56,9 +53,7 @@ public class ComandoAclarar implements IComando {
 
 				//pixeles[i][j] = r * 256 * 256 + g * 256 + b;
 				pixeles[i][j] = (r << 16) | ((g << 8) | b);
-
 			}
 		}
 	}
-
 }

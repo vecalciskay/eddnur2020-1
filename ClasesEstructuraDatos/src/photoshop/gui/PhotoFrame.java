@@ -18,6 +18,7 @@ import javax.swing.filechooser.FileFilter;
 
 import photoshop.Imagen;
 import photoshop.cmd.ComandoAclarar;
+import photoshop.cmd.ComandoConvertirGris;
 import photoshop.cmd.ComandoOscurecer;
 
 public class PhotoFrame extends JFrame {
@@ -77,7 +78,6 @@ public class PhotoFrame extends JFrame {
 		
 		menuItem = new JMenuItem("Aclarar");
 		menuItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mnu_imagen_aclarar();
@@ -88,7 +88,6 @@ public class PhotoFrame extends JFrame {
 		
 		menuItem = new JMenuItem("Oscurecer");
 		menuItem.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				mnu_imagen_oscurecer();
@@ -97,9 +96,23 @@ public class PhotoFrame extends JFrame {
 		});		
 		menu.add(menuItem);
 		
+		menuItem = new JMenuItem("Convertir a Gris");
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mnu_imagen_convertirgris();
+			}
+			
+		});		
+		menu.add(menuItem);
+		
 		this.setJMenuBar(menuBar);
 		this.setVisible(true);
 		this.pack();
+	}
+
+	protected void mnu_imagen_convertirgris() {
+		modelo.hacerTransformacion(new ComandoConvertirGris());
 	}
 
 	protected void mnu_imagen_aclarar() {
@@ -139,7 +152,6 @@ public class PhotoFrame extends JFrame {
         inputFile.showOpenDialog(this);
 
         if (inputFile.getSelectedFile() == null) {
-
             JOptionPane.showMessageDialog(this, "Debe elegir una imagen");
             return;
         }
@@ -147,9 +159,7 @@ public class PhotoFrame extends JFrame {
         BufferedImage img = null;
         try {
             img = ImageIO.read(inputFile.getSelectedFile());
-        } catch (IOException e) {
-
-        }
+        } catch (IOException e) {;}
 
         modelo.setImagen(img);
 	}
