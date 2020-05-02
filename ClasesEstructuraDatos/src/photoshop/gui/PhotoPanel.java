@@ -9,14 +9,18 @@ import java.beans.PropertyChangeListener;
 import javax.swing.JPanel;
 
 import photoshop.Imagen;
+import photoshop.util.Deshacedor;
 
 
 public class PhotoPanel extends JPanel implements PropertyChangeListener {
 	private static final long serialVersionUID = 1L;
 	private Imagen modelo;
+	private Deshacedor listaCambiosDeshacedor;
 
 	public PhotoPanel(Imagen modelo) {
 		this.modelo = modelo;
+		this.listaCambiosDeshacedor = new Deshacedor();
+		this.modelo.addObserver(this.listaCambiosDeshacedor);
 	}
 
 	public Dimension getPreferredSize() {
@@ -34,5 +38,17 @@ public class PhotoPanel extends JPanel implements PropertyChangeListener {
 	public void propertyChange(PropertyChangeEvent evt) {
 		//Imagen modeloImagen = (Imagen)evt.getSource();
 		repaint();
+	}
+
+	public void deshacer() {
+		listaCambiosDeshacedor.deshacer();
+		Imagen img = listaCambiosDeshacedor.clonarActual();
+		modelo.setFromImagen(img);
+	}
+
+	public void rehacer() {
+		listaCambiosDeshacedor.rehacer();
+		Imagen img = listaCambiosDeshacedor.clonarActual();
+		modelo.setFromImagen(img);
 	}
 }

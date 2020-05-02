@@ -11,6 +11,7 @@ public class Imagen {
 
 	private int ancho;
 	private int alto;
+	int numeroTransformaciones = 0;
 	
 	private int[][] pixeles;
 	
@@ -23,20 +24,10 @@ public class Imagen {
 		pixeles = new int[ancho][alto];
 		
 		imagenChangeSupport = new PropertyChangeSupport(this);
-		
-		todoGris();
 	}
 	
 	public void addObserver(PropertyChangeListener listener) {
 		imagenChangeSupport.addPropertyChangeListener(listener);
-	}
-	
-	public void todoGris() {
-		for (int i = 0; i < ancho; i++) {
-			for (int j = 200; j < alto; j++) {
-				pixeles[i][j] = 0x00aaaaaa; 
-			}
-		}
 	}
 	
 	public int getColor(int x, int y) {
@@ -51,6 +42,14 @@ public class Imagen {
 		return alto;
 	}
 	
+	public int getNumeroTransformaciones() {
+		return numeroTransformaciones;
+	}
+
+	public void setNumeroTransformaciones(int numeroTransformaciones) {
+		this.numeroTransformaciones = numeroTransformaciones;
+	}
+
 	public void dibujar(Graphics g) {
 		BufferedImage rsm = new BufferedImage(ancho, alto, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2d = rsm.createGraphics();
@@ -69,6 +68,7 @@ public class Imagen {
 		
 		cmd.setImagen(this);
 		cmd.ejecutar();
+		numeroTransformaciones++;
 		imagenChangeSupport.firePropertyChange("imagen", 10, 20);
 	}
 
@@ -88,6 +88,30 @@ public class Imagen {
 				pixeles[i][j] = img.getRGB(i, j);
 			}
 		}
-		imagenChangeSupport.firePropertyChange("imagen", 10, 20);
+		imagenChangeSupport.firePropertyChange("nueva", 10, 20);
+	}
+
+	public Imagen clonar() {
+		Imagen clonImagen = new Imagen(ancho, alto);
+		for (int i = 0; i < ancho; i++) {
+			for (int j = 0; j < alto; j++) {
+				
+				clonImagen.setColor(i,j, pixeles[i][j]);
+			}
+		}
+		clonImagen.setNumeroTransformaciones(numeroTransformaciones);
+		return clonImagen;
+	}
+
+	private void setColor(int i, int j, int color) {
+		pixeles[i][j]= color;
+	}
+
+	public void setFromImagen(Imagen img) {
+		ancho = img.getAncho();
+		alto = img.getAlto();
+		pixeles = img.getPixeles();
+		numeroTransformaciones = img.getNumeroTransformaciones();
+		imagenChangeSupport.firePropertyChange("recupera", 10, 20);
 	}
 }

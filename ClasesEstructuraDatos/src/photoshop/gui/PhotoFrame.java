@@ -3,6 +3,7 @@ package photoshop.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.KeyStroke;
 import javax.swing.filechooser.FileFilter;
 
 import photoshop.Imagen;
@@ -106,9 +108,45 @@ public class PhotoFrame extends JFrame {
 		});		
 		menu.add(menuItem);
 		
+		menu.addSeparator();
+		
+		menuItem = new JMenuItem("Deshacer");
+		KeyStroke ctrlZ 
+	    	= KeyStroke.getKeyStroke(KeyEvent.VK_Z, KeyEvent.CTRL_DOWN_MASK);
+		menuItem.setAccelerator(ctrlZ);
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mnu_imagen_deshacer();
+			}
+			
+		});		
+		menu.add(menuItem);
+		
+		menuItem = new JMenuItem("Rehacer");
+		KeyStroke ctrlY 
+	    	= KeyStroke.getKeyStroke(KeyEvent.VK_Y, KeyEvent.CTRL_DOWN_MASK);
+		menuItem.setAccelerator(ctrlY);
+		menuItem.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				mnu_imagen_rehacer();
+			}
+			
+		});		
+		menu.add(menuItem);
+		
 		this.setJMenuBar(menuBar);
 		this.setVisible(true);
 		this.pack();
+	}
+
+	protected void mnu_imagen_rehacer() {
+		panel.rehacer();
+	}
+
+	protected void mnu_imagen_deshacer() {
+		panel.deshacer();
 	}
 
 	protected void mnu_imagen_convertirgris() {
