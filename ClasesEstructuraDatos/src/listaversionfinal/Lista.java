@@ -5,9 +5,11 @@ import java.util.Iterator;
 public class Lista<T> implements Iterable<T> {
 
 	protected Nodo<T> inicio;
+	protected int tamano;
 
 	public Lista() {
 		inicio = null;
+		tamano = 0;
 	}
 
 	public boolean vacia() {
@@ -37,16 +39,60 @@ public class Lista<T> implements Iterable<T> {
 		resultado.append("]");
 		return resultado.toString();
 	}
+	
+	public int getTamano() {
+		return tamano;
+	}
 
+	/**
+	 * 
+	 * @param o
+	 * @param posicion Es un arreglo de UN entero al menos
+	 * @return
+	 */
+	public T buscar(T o, int[] posicion) throws Exception {
+		int contador = 0;
+		Nodo<T> actual = inicio;
+		while(actual != null && actual.getContenido() != o) {
+			actual = actual.getSiguiente();
+			contador++;
+		}
+		
+		if (actual == null) {
+			posicion[0] = -1;
+			return null;
+		}
+		
+		posicion[0] = contador;
+		return actual.getContenido();
+	}
+
+	public T get(int idx) throws Exception {
+		
+		int contador = 0;
+		Nodo<T> actual = inicio;
+		while(actual != null && contador < idx) {
+			actual = actual.getSiguiente();
+			contador++;
+		}
+		
+		if (actual == null)
+			throw new Exception("El indice " + idx + " es mayor al tamano " + contador + " de la lista");
+		
+		return actual.getContenido(); 
+	}
+	
 	public void insertar(T o) {
 		Nodo<T> nuevoNodo = new Nodo<T>(o);
 		nuevoNodo.setSiguiente(inicio);
 		inicio = nuevoNodo;
+		
+		tamano++;
 	}
 
 	public void agregar(T o) {
 		if (inicio == null) {
-			insertar(o);
+			insertar(o);			
 			return;
 		}
 		
@@ -57,6 +103,8 @@ public class Lista<T> implements Iterable<T> {
 		
 		Nodo<T> nuevoNodo = new Nodo<T>(o); 
 		actual.setSiguiente(nuevoNodo);
+		
+		tamano++;
 	}
 	
 	public void eliminar(int pos) throws Exception {
@@ -69,6 +117,7 @@ public class Lista<T> implements Iterable<T> {
 		
 		if (pos == 0) {
 			inicio = inicio.getSiguiente();
+			tamano--;
 			return;
 		}
 		
@@ -82,8 +131,14 @@ public class Lista<T> implements Iterable<T> {
 			throw new Exception("No existe esa posicion en esta lista");
 		
 		actual.setSiguiente(actual.getSiguiente().getSiguiente());
+		tamano--;
 	}
 
+	/**
+	 * Deprecated Usar el metodo tamano ya que es mas eficiente
+	 * @return
+	 */
+	@Deprecated
 	public int length() {
 		int contador = 0;
 		Nodo<T> actual = inicio;

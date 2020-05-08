@@ -1,7 +1,5 @@
 package listaversionfinal;
 
-import listaversionfinal.Lista.Nodo;
-
 public class ListaOrdenada<T> extends Lista<T> {
 
 	public ListaOrdenada() {
@@ -25,6 +23,7 @@ public class ListaOrdenada<T> extends Lista<T> {
 		if (objComparable.compareTo(inicio.getContenido()) < 0) {
 			nuevoNodo.setSiguiente(inicio);
 			inicio = nuevoNodo;
+			tamano++;
 			return;
 		}
 		
@@ -37,5 +36,36 @@ public class ListaOrdenada<T> extends Lista<T> {
 		// Si se puede ordenar
 		nuevoNodo.setSiguiente(actual.getSiguiente());
 		actual.setSiguiente(nuevoNodo);
+		tamano++;
+	}
+
+	public T buscar(T o, int[] posicion) throws Exception {
+		
+		if (!(o instanceof Comparable)) {
+			return super.buscar(o, posicion);
+		}
+		
+		int idxInicio = 0;
+		int idxFinal = tamano;
+		int idxMitad = (idxFinal - idxInicio) / 2;
+		T contenidoMitad = get(idxMitad);
+		
+		Comparable<T> objBuscar = (Comparable)o;
+		
+		// 5 6 8 9 12
+		while(contenidoMitad != o) {
+			
+			if (objBuscar.compareTo(contenidoMitad) < 0) {
+				idxFinal = idxMitad;			
+			}
+			if (objBuscar.compareTo(contenidoMitad) > 0) {
+				idxInicio = idxMitad;			
+			}
+			idxMitad = (idxFinal + idxInicio) / 2;
+			contenidoMitad = get(idxMitad);
+		}
+		
+		posicion[0] = idxMitad;
+		return contenidoMitad;
 	}
 }
