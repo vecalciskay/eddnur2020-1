@@ -114,4 +114,8 @@ public class Imagen {
 		numeroTransformaciones = img.getNumeroTransformaciones();
 		imagenChangeSupport.firePropertyChange("recupera", 10, 20);
 	}
+
+	public void setPixeles(int[][] pixeles2) {
+		pixeles = pixeles2;
+	}
 }

@@ -2,7 +2,9 @@ package utils;
 
 import java.util.Date;
 
-public class Persona implements Comparable<Persona>{
+import listaversionfinal.Hashable;
+
+public class Persona implements Comparable<Persona>, Hashable {
 
 	private String nombre;
 	private Date fechaNacimiento;
@@ -58,6 +60,31 @@ public class Persona implements Comparable<Persona>{
 		
 		// si this es igual que o --> return 0
 		return 0;
+	}
+
+	/**
+	 * Metodo wrapper
+	 */
+	@Override
+	public int getHash() {
+		return getHash(nombre);
+	}
+	
+	@Override
+	public int getHash(String identificador) {
+		int hash = 0;
+		for (byte b : identificador.getBytes()) {
+			int charInt = (int)b;
+			hash += charInt;
+		}
+		hash = hash % 1000;
+		
+		return hash;
+	}
+
+	@Override
+	public String getIdentificador() {
+		return nombre;
 	}
 	
 	
