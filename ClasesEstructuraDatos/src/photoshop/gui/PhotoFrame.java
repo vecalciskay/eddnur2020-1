@@ -27,6 +27,7 @@ public class PhotoFrame extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private PhotoPanel panel;
 	private Imagen modelo;
+        private KernelFrame kernelF;
 	
 	public PhotoFrame() {
 		init();
@@ -107,6 +108,16 @@ public class PhotoFrame extends JFrame {
 			
 		});		
 		menu.add(menuItem);
+                
+                menuItem = new JMenuItem("Convolucionar");
+                menuItem.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        mnu_imagen_convolucionar();
+                    }
+
+                });
+                menu.add(menuItem);
 		
 		menu.addSeparator();
 		
@@ -160,6 +171,10 @@ public class PhotoFrame extends JFrame {
 	protected void mnu_imagen_oscurecer() {
 		modelo.hacerTransformacion(new ComandoOscurecer(20));
 	}
+        
+        protected void mnu_imagen_convolucionar() {
+                kernelF = new KernelFrame(modelo);
+        }
 
 	protected void mnu_archivo_salir() {
 		System.exit(0);
