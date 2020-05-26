@@ -5,8 +5,6 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import arbol.Arbol;
-import redes.circulo.Circulo;
-import redes.circulo.CirculoPanel;
 
 public class FrameArbol extends JFrame {
 	/**

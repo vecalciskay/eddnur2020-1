@@ -29,16 +29,8 @@ public class PanelArbol extends JPanel {
 	}
 	
 	public void paintComponent(Graphics g) {
-		BufferedImage bgImage = new BufferedImage(
-				600,400, 
-				BufferedImage.TYPE_INT_ARGB);
 		
-		Graphics2D g2 = bgImage.createGraphics();
-		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-		g2.setColor(Color.blue);
+		modelo.dibujar(g, 10, 10);
 		
-		g2.drawString(modelo.toString(), 200, 200);
-
-		g.drawImage(bgImage, 0, 0, null);
 	}
 }
