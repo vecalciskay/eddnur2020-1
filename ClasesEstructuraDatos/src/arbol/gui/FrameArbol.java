@@ -38,11 +38,12 @@ public class FrameArbol extends JFrame {
 
 	public void inicializarConEjemplo() {
 		
-		modelo.insertar(null, "A", "A");
-		modelo.insertar("A", "D", "D");
-		modelo.insertar("A", "R", "R");
-		modelo.insertar("D", "M", "M");
-		modelo.insertar("D", "H", "H");
+		modelo.insertar(null, "A", "Adan");
+		modelo.insertar("A", "D", "Daniel");
+		modelo.insertar("A", "R", "Ramiro");
+		modelo.insertar("A", "C", "Carla");
+		modelo.insertar("D", "M", "Maria");
+		modelo.insertar("D", "H", "Horacio");
 		
 	}
 
