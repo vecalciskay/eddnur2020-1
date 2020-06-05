@@ -1,7 +1,9 @@
 package arbol;
 
 public class OperadorMultiplicacion extends Operador {
-
+	
+	public static final String CARACTER = "*";
+	
 	public OperadorMultiplicacion() {
 		signo = "*";
 	}

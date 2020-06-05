@@ -2,6 +2,8 @@ package arbol;
 
 public class OperadorSustraccion extends Operador {
 
+	public static final String CARACTER = "-";
+	
 	public OperadorSustraccion() {
 		signo = "-";
 	}

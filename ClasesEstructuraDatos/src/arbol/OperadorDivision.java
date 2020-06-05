@@ -1,6 +1,8 @@
 package arbol;
 
 public class OperadorDivision extends Operador {
+	
+	public static final String CARACTER = "/"; 
 
 	public OperadorDivision() {
 		signo = "/";
