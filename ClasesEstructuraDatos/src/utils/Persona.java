@@ -1,5 +1,7 @@
 package utils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import listaversionfinal.Hashable;
@@ -86,6 +88,25 @@ public class Persona implements Comparable<Persona>, Hashable {
 	public String getIdentificador() {
 		return nombre;
 	}
-	
+
+	public static Persona buildPersona(String linea) throws ParseException {
+		String[] campos = new String[3];
+		
+		int idx0 = 0;
+		campos[0] = linea.substring(0,linea.indexOf("|"));
+		idx0 = campos[0].length() + 1;
+		campos[1] = linea.substring(idx0,linea.indexOf("|", idx0));
+		idx0 = idx0 + campos[1].length() + 1;
+		campos[2] = linea.substring(idx0);
+		
+		Persona persona = new Persona();
+		
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		persona.fechaNacimiento = formatter.parse(campos[1]);
+		persona.nombre = campos[0];
+		persona.salario = Integer.parseInt(campos[2]);
+		
+		return persona;
+	}
 	
 }
