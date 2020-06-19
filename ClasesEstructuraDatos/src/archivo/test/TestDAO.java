@@ -15,8 +15,7 @@ public class TestDAO {
 		
 		Lista<Persona> lista = dao.getAll();
 
-		System.out.println(lista);
-		
+		System.out.println(lista);		
 		
 		Persona persona = new Persona();
 		persona.setNombre("Maria");
