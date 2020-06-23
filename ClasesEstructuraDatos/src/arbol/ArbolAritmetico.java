@@ -72,6 +72,11 @@ public class ArbolAritmetico {
 		
 		public void leerExpresion(String exprSinTrim) throws Exception {
 			
+			if (exprSinTrim == null)
+				throw new Exception("No se ha dado ninguno expresión (nulo)");
+			if (exprSinTrim.isBlank() || exprSinTrim.isEmpty())
+				throw new Exception("Expresion vacia, no tiene nada");
+			
 			String expr = exprSinTrim.trim();
 			
 			double posibleNumero = 0;
