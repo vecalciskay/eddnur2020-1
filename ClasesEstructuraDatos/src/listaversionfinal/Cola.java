@@ -19,4 +19,5 @@ public class Cola<T> extends Lista<T>{
 		this.eliminar(0);
 		return resultado;
 	}
+
 }
