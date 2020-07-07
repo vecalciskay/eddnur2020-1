@@ -6,6 +6,7 @@ import java.util.Iterator;
 
 import lista.Lista;
 import listaversionfinal.Cola;
+import listaversionfinal.Pila;
 
 public class Grafo<T> {
 	
@@ -204,6 +205,82 @@ public class Grafo<T> {
 		return builder.toString();
 	}
 	
+	public Lista<String> caminoMasCortoDijkstra(String desde, String hasta)throws Exception {
+		Hashtable<String, Integer> distancias = new Hashtable<>();
+		Hashtable<String, String> anterior = new Hashtable<>();
+		
+		for (Nodo<T> nodo : nodos.values()) {
+			distancias.put(nodo.getId(), Integer.MAX_VALUE);
+			anterior.put(nodo.getId(), "");
+			nodo.setVisitado(0);
+		}
+		
+		distancias.put(desde, 0);
+		
+		while(cantidadNoVisitados() > 0) {
+			Nodo<T> nodoAVisitar = buscarNoVisitadosDistanciaMasCorta(distancias);
+			
+			nodoAVisitar.setVisitado(1);
+			
+			for (Arco<T> vecino : nodoAVisitar.getConectados()) {
+				int distanciaNodoVisitado = distancias.get(nodoAVisitar.getId());
+				int posibleDistanciaMasCorta = distanciaNodoVisitado + vecino.getPeso();
+				
+				int distanciaNodoVecino = distancias.get(vecino.getDestino().getId());
+				
+				if (posibleDistanciaMasCorta < distanciaNodoVecino) {
+					distancias.put(vecino.getDestino().getId(), posibleDistanciaMasCorta);
+					anterior.put(vecino.getDestino().getId(), nodoAVisitar.getId());
+				}
+			}
+		}
+		
+		Lista<String> resultado = formarCamino(desde, hasta, anterior);
+		
+		return resultado;
+	}
+	
+	private Lista<String> formarCamino(String desde, String hasta, Hashtable<String, String> anterior) {
+
+		Lista<String> resultado = new Lista<>();
+		String actual = hasta;
+		while(actual != desde) {
+			resultado.insertar(actual);
+			String anteriorDeActual = anterior.get(actual);
+			
+			actual = anteriorDeActual;
+		}
+		
+		resultado.insertar(desde);
+		
+		return resultado;
+	}
+
+	private Nodo<T> buscarNoVisitadosDistanciaMasCorta(Hashtable<String, Integer> distancias) {
+		int distanciaMasCorta = Integer.MAX_VALUE;
+		Nodo<T> resultado = null;
+		for (Nodo<T> nodo : nodos.values()) {
+			if (nodo.getVisitado() > 0)
+				continue;
+			
+			
+			if (distancias.get(nodo.getId()) < distanciaMasCorta) {
+				distanciaMasCorta = distancias.get(nodo.getId());
+				resultado = nodo;
+			}			
+		}
+		return resultado;
+	}
+
+	private int cantidadNoVisitados() {
+		int resultado = 0;
+		for (Nodo<T> nodo : nodos.values()) {
+			if (nodo.getVisitado() == 0)
+				resultado++;
+		}
+		return resultado;
+	}
+
 	public int caminoMasCortoBFS(String desde, String hasta) throws Exception {
 		if (!nodos.containsKey(desde) || !nodos.containsKey(hasta))
 			throw new Exception("No existe nodo con llave " + desde + " o " + hasta);

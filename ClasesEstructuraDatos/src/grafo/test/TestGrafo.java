@@ -2,6 +2,7 @@ package grafo.test;
 
 
 import grafo.Grafo;
+import lista.Lista;
 
 public class TestGrafo {
 	public static void main(String[] args) throws Exception {
@@ -36,5 +37,8 @@ public class TestGrafo {
 		
 		int cmc = grafo.caminoMasCortoBFS("A", "H");
 		System.out.println("El camino mas corto es de " + cmc + " saltos");
+		
+		Lista<String> camino = grafo.caminoMasCortoDijkstra("A", "H");
+		System.out.println(camino);
 	}
 }
